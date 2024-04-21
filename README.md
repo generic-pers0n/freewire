@@ -1,12 +1,24 @@
-# The FrostWire Monorepo
+# FreeWire
 
-Welcome to the main FrostWire repository. 
-Here you will find the sources necessary to build [FrostWire for Android](http://www.frostwire.com/android/?from=github) and [FrostWire for Desktop](http://www.frostwire.com/downloads/?from=github)
+FreeWire is my personal fork of FrostWire. It is intended as a hobby project.
 
- * [/android](https://github.com/frostwire/frostwire/tree/master/android) Sources for FrostWire for Android
- * [/desktop](https://github.com/frostwire/frostwire/tree/master/desktop) Sources for FrostWire for Desktop (Windows, Mac, Linux)
- * [/common](https://github.com/frostwire/frostwire/tree/master/common) Common sources for the desktop and android client
- * [/telluride](https://github.com/frostwire/frostwire/tree/master/telluride) Sources for our Telluride cloud video downloader
+This repo contains not only the sources for desktop but also the sources for
+Android. I mostly focus on the desktop sources, so the Android version might
+not build all the time, if it even builds at all.
+
+The different sources lie in the following directories:
+
+* [/android](android-src) - Sources for Android
+* [/desktop](desktop-src) - Sources for Desktop
+* [/common](common-src) - Common sources shared between the desktop and Android
+  client.
+* [/telluride](telluride-src) - Sources for Telluride, FrostWire's video
+  downloader.
+
+[android-src]: https://github.com/generic-pers0n/freewire/tree/master/android
+[desktop-src]: https://github.com/generic-pers0n/freewire/tree/master/desktop
+[common-src]: https://github.com/generic-pers0n/freewire/tree/master/common
+[telluride-src]: https://github.com/generic-pers0n/freewire/tree/master/telluride
 
 # Coding Guidelines
 
@@ -23,53 +35,55 @@ Here you will find the sources necessary to build [FrostWire for Android](http:/
 
 # Contribution Guidelines
 
-If you want to contribute code, start by looking at the [open issues on github.com](https://github.com/frostwire/frostwire/issues).
+TBD, but for now, here's FrostWire's contribution guidelines:
 
-If you want to fix a new issue that's not listed there, create the issue, see if
-we can discuss a solution.
-
-Please follow the following procedure when creating features to avoid unnecessary rejections:
-
-Do this the first time (Cloning & Forking):
-* Clone https://github.com/frostwire/frostwire to your computer. This will be the `origin` repo. 
-```bash
-git clone https://github.com/frostwire/frostwire
-```
-* Make a Fork of the `origin` repo into your github account.
-* On your local copy, add your fork as a remote under your username as the remote alias.
-```bash
-cd frostwire
-git remote add your_github_username_here https://github.com/your_github_username_here/frostwire
-```
-
-For further contributions
-* Create a branch with a descriptive name of the issue you are solving.
-* Make sure the name of your feature branch describes what you're trying to fix. If you don't know what to name it and there's an issue created for it, name your branch issue-233 (where 233 would be the number of the issue you're fixing).
-* Focus on your patch, do not waste time re-formatting code too much as it makes it hard
-  to review the actual fix. Good patches will be rejected if there's too much code formatting
-  noise, we are a very small team and we can't waste too much time reviewing if something
-  got lost or added in the middle of hundreds of lines that got shifted.
-* Code, Commit, Push, Code, Commit, Push, until the feature is fully implemented.
-* If you can add tests to demonstrate the issue and the fix, even better.
-* Submit a pull request that's as descriptive as possible. Adding (issue #233) to the commit message or in PR comments automatically references them on the issue tracker.
-* We'll code review you, maybe ask you for some more changes, and after we've tested it we'll merge your changes.
-
-If your branch has taken a while to be accepted for merging into `master`, it's very likely that the `master` branch will have moved forward while you work. In this case, make sure to sync your `master`.
-
-    git fetch upstream master
-
-and then rebase your branch to bring it up to speed so it can be merged properly (do not merge `master` into your branch):
-
-    git checkout my-branch
-    git rebase origin/master
-
-As you do this you may have to fix any possible conflicts, just follow the instruction git gives you if this is your first time.
-
-Make sure to squash any cosmetic commits into the body of your work so that we don't pollute the history.
-
-_Repeat and rinse, if you send enough patches to demonstrate you have a good
-coding skills, we'll just give you commit access on the real repo and you will
-be part of the development team._
+> If you want to contribute code, start by looking at the [open issues on github.com](https://github.com/frostwire/frostwire/issues).
+> 
+> If you want to fix a new issue that's not listed there, create the issue, see if
+> we can discuss a solution.
+> 
+> Please follow the following procedure when creating features to avoid unnecessary rejections:
+> 
+> Do this the first time (Cloning & Forking):
+> * Clone https://github.com/frostwire/frostwire to your computer. This will be the `origin` repo. 
+> ```bash
+> git clone https://github.com/frostwire/frostwire
+> ```
+> * Make a Fork of the `origin` repo into your github account.
+> * On your local copy, add your fork as a remote under your username as the remote alias.
+> ```bash
+> cd frostwire
+> git remote add your_github_username_here https://github.com/your_github_username_here/frostwire
+> ```
+>
+> For further contributions
+> * Create a branch with a descriptive name of the issue you are solving.
+> * Make sure the name of your feature branch describes what you're trying to fix. If you don't know what to name it and there's an issue created for it, name your branch issue-233 (where 233 would be the number of the issue you're fixing).
+> * Focus on your patch, do not waste time re-formatting code too much as it makes it hard
+>  to review the actual fix. Good patches will be rejected if there's too much code formatting
+>  noise, we are a very small team and we can't waste too much time reviewing if something
+>  got lost or added in the middle of hundreds of lines that got shifted.
+> * Code, Commit, Push, Code, Commit, Push, until the feature is fully implemented.
+> * If you can add tests to demonstrate the issue and the fix, even better.
+> * Submit a pull request that's as descriptive as possible. Adding (issue #233) to the commit message or in PR comments automatically references them on the issue tracker.
+> * We'll code review you, maybe ask you for some more changes, and after we've tested it we'll merge your changes.
+> 
+> If your branch has taken a while to be accepted for merging into `master`, it's very likely that the `master` branch will have moved forward while you work. In this case, make sure to sync your `master`.
+>
+>    git fetch upstream master
+> 
+> and then rebase your branch to bring it up to speed so it can be merged properly (do not merge `master` into your branch):
+> 
+>    git checkout my-branch
+>    git rebase origin/master
+> 
+> As you do this you may have to fix any possible conflicts, just follow the instruction git gives you if this is your first time.
+> 
+> Make sure to squash any cosmetic commits into the body of your work so that we don't pollute the history.
+> 
+> _Repeat and rinse, if you send enough patches to demonstrate you have a good
+> coding skills, we'll just give you commit access on the real repo and you will
+> be part of the development team._
 
 # How to build
 
@@ -107,10 +121,11 @@ Build with Android studio or go inside the `android` directory and type:
 
 ### License
 
-Frostwire Desktop and Frostwire Android are offered under the [GNU General Public License](http://www.gnu.org/copyleft/gpl.html).
+Both FreeWire Desktop and FreeWire Android are offered under the [GNU General Public License](http://www.gnu.org/copyleft/gpl.html).
 
 
 ### Official FrostWire sites
+In case you want to visit upstream :)
 
 [Main Website Frostwire.com](https://www.frostwire.com) |
 [Reddit](https://reddit.com/r/frostwire)
@@ -118,7 +133,3 @@ Frostwire Desktop and Frostwire Android are offered under the [GNU General Publi
 [Facebook](https://www.facebook.com/FrostWireOfficial) |
 [Discord Chatrooms](https://discord.com/channels/461752211802947585/461752211802947587) |
 [Tumblr](http://tumblr.frostwire.com)
-
-
-### SourceForge Mirror
-[![Download FrostWire](https://img.shields.io/sourceforge/dt/frostwire.svg)](https://sourceforge.net/projects/frostwire/files/latest/download) [![Download FrostWire](https://img.shields.io/sourceforge/dd/frostwire.svg)](https://sourceforge.net/projects/frostwire/files/latest/download)
