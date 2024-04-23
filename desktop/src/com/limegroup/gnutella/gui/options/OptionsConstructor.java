@@ -196,11 +196,7 @@ public final class OptionsConstructor {
             addOption(OptionsMediator.ROOT_NODE_KEY, APPS_KEY, I18n.tr("Helper Apps"), BrowserPaneItem.class, ImageViewerPaneItem.class, VideoPlayerPaneItem.class, AudioPlayerPaneItem.class);
         }
         //view options
-        if (OSUtils.isWindows()) {
-            addOption(OptionsMediator.ROOT_NODE_KEY, GUI_KEY, I18n.tr("View"), PopupsPaneItem.class, ShowPromoOverlaysPaneItem.class, ShowFrostWireRecommendationsPaneItem.class, AutoCompletePaneItem.class);
-        } else {
-            addOption(OptionsMediator.ROOT_NODE_KEY, GUI_KEY, I18n.tr("View"), PopupsPaneItem.class, ShowPromoOverlaysPaneItem.class, AutoCompletePaneItem.class);
-        }
+        addOption(OptionsMediator.ROOT_NODE_KEY, GUI_KEY, I18n.tr("View"), PopupsPaneItem.class, AutoCompletePaneItem.class);
         // filter options
         addGroupTreeNode(OptionsMediator.ROOT_NODE_KEY, FILTERS_KEY, I18n.tr("Filters"));
         //TODO: bring back to build when ready, currently only UI working

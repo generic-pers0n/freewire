@@ -28,8 +28,6 @@ import com.frostwire.gui.theme.SkinPopupMenu;
 import com.frostwire.gui.theme.ThemeMediator;
 import com.frostwire.search.SearchResult;
 import com.frostwire.search.torrent.TorrentSearchResult;
-import com.frostwire.util.OSUtils;
-import com.frostwire.util.UrlUtils;
 import com.limegroup.gnutella.MediaType;
 import com.limegroup.gnutella.gui.GUIConstants;
 import com.limegroup.gnutella.gui.GUIMediator;
@@ -42,13 +40,11 @@ import com.limegroup.gnutella.gui.dnd.MulticastTransferHandler;
 import com.limegroup.gnutella.gui.tables.*;
 import com.limegroup.gnutella.gui.util.PopupUtils;
 import com.limegroup.gnutella.settings.SearchSettings;
-import com.limegroup.gnutella.util.FrostWireUtils;
 import com.limegroup.gnutella.util.QueryUtils;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
@@ -67,7 +63,6 @@ public final class SearchResultMediator extends AbstractTableMediator<TableRowFi
      * The TableSettings that all ResultPanels will use.
      */
     private static final TableSettings SEARCH_SETTINGS = new TableSettings("SEARCH_TABLE");
-    private static final String FROSTWIRE_FEATURED_DOWNLOADS_URL = "https://www.frostwire.com/featured-downloads/?from=desktop-" + UrlUtils.encode(OSUtils.getFullOS() + "-" + FrostWireUtils.getFrostWireVersion() + "b" + FrostWireUtils.getBuildNumber());
     /**
      * The search info of this class.
      */
@@ -621,16 +616,6 @@ public final class SearchResultMediator extends AbstractTableMediator<TableRowFi
         searchBox.setPrompt(I18n.tr("Search something or paste a torrent URL, magnet URL or video page URL. (Search hints provided by Google)"));
         centerPanel.add(searchBox, "center, w 570px!, growx 0");
 
-        // Support FrostWire / FrostWire for Android Buttons
-        JPanel southButtonsPanel = new JPanel();
-        southButtonsPanel.setLayout(new MigLayout("fill, gap 0 0, ins 0", "[grow 161][shrink]"));
-        southButtonsPanel.add(supportFrostWireButton(), "grow");
-        if (!OSUtils.isWindowsAppStoreInstall()) {
-            southButtonsPanel.add(frostwire4AndroidButton(), "w 250px!, wrap");
-        }
-
-        centerPanel.add(southButtonsPanel, "south");
-
         JScrollPane scrollPane = new JScrollPane(centerPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -642,40 +627,6 @@ public final class SearchResultMediator extends AbstractTableMediator<TableRowFi
         background.add(table);
         MAIN_PANEL.add(background);
         addButtonRow();
-    }
-
-    private Component supportFrostWireButton() {
-        Color blue = new Color(70, 179, 232);
-        JLabel browseAll = new JLabel(tr("Support FrostWire"));
-        browseAll.setBackground(blue);
-        browseAll.setForeground(Color.WHITE);
-        browseAll.setOpaque(true);
-        browseAll.setFont(new Font("Helvetica", Font.BOLD, 12));
-        browseAll.setBorder(new EmptyBorder(5, 20, 5, 20));
-        browseAll.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                GUIMediator.openURL("https://www.frostwire.com/give");
-            }
-        });
-        return browseAll;
-    }
-
-    private Component frostwire4AndroidButton() {
-        Color blue = new Color(6, 76, 92);
-        JLabel browseAll = new JLabel(tr("FrostWire Plus for Android"));
-        browseAll.setBackground(blue);
-        browseAll.setForeground(Color.WHITE);
-        browseAll.setOpaque(true);
-        browseAll.setFont(new Font("Helvetica", Font.BOLD, 12));
-        browseAll.setBorder(new EmptyBorder(5, 20, 5, 20));
-        browseAll.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                GUIMediator.openURL("https://www.frostwire.com/android");
-            }
-        });
-        return browseAll;
     }
 
     /**

@@ -29,49 +29,27 @@ class ShutdownWindow extends JDialog {
      *
      */
     private static final long serialVersionUID = 446845150731872693L;
-    private final ImageIcon backgroundImage;
 
     ShutdownWindow() {
         super(GUIMediator.getAppFrame());
-        final String image_path = String.format("org/limewire/gui/images/%s.jpg",
-                !OSUtils.isWindowsAppStoreInstall() ? "app_shutdown" : "windows_appstore_install_shutdown");
-        backgroundImage = ResourceManager.getImageFromResourcePath(image_path);
-        final String backgroundUrl = !OSUtils.isWindowsAppStoreInstall() ?
-                "https://www.frostwire.com/android/?from=shutdown" :
-                "https://www.frostwire.com/give/?from=shutdown";
 
         setResizable(false);
         setTitle(I18n.tr("Shutting down FrostWire..."));
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        JPanel backgroundPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(backgroundImage.getImage(), 0, 0, null);
-            }
-        };
-        backgroundPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                e.consume();
-                GUIMediator.openURL(backgroundUrl);
-            }
-        });
-        backgroundPanel.setLayout(null);
-        backgroundPanel.setSize(800, 500);
-        add(backgroundPanel);
-        Insets insets = backgroundPanel.getInsets();
+
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+
+        // Add the label
         JLabel label = new JLabel(I18n.tr("Please wait while FrostWire shuts down..."));
-        label.setFont(new Font("Dialog", Font.PLAIN, 16));
-        Dimension labelPrefSize = label.getPreferredSize();
-        backgroundPanel.add(label);
-        label.setBounds(65 + insets.left, 400 + insets.top, labelPrefSize.width, labelPrefSize.height);
+        add(label);
+
+        // Add the progress bar
         JProgressBar bar = new LimeJProgressBar();
         bar.setIndeterminate(true);
         bar.setStringPainted(false);
-        backgroundPanel.add(bar);
-        bar.setBounds(55 + insets.left, 428 + insets.top, 680, 30);
-        getContentPane().setPreferredSize(new Dimension(800, 500));
+        add(bar);
+
+        // Layout the final dialog
         pack();
     }
 
