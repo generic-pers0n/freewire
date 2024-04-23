@@ -107,10 +107,6 @@ public final class StatusLine implements VPNStatusRefresher.VPNStatusListener {
                 jcbmi = new SkinCheckBoxMenuItem(new ShowBandwidthConsumptionAction());
                 jcbmi.setState(StatusBarSettings.BANDWIDTH_DISPLAY_ENABLED.getValue());
                 jpm.add(jcbmi);
-                //  add 'Show Donation Buttons' menu item
-                jcbmi = new SkinCheckBoxMenuItem(new ShowDonationButtonsAction());
-                jcbmi.setState(StatusBarSettings.DONATION_BUTTONS_DISPLAY_ENABLED.getValue());
-                jpm.add(jcbmi);
 
                 jpm.pack();
                 jpm.show(clickedComponent, me.getX(), me.getY());
@@ -124,12 +120,8 @@ public final class StatusLine implements VPNStatusRefresher.VPNStatusListener {
             }
         }
     };
-    private IconButton twitterButton;
-    private IconButton facebookButton;
-    private IconButton instagramButton;
+
     private IconButton seedingStatusButton;
-    private IconButton discordButton;
-    private DonationButtons donationButtons;
     private IconButton settingsButton;
 
     /**
@@ -166,8 +158,6 @@ public final class StatusLine implements VPNStatusRefresher.VPNStatusListener {
             public void componentHidden(ComponentEvent arg0) {
             }
         });
-        GUIMediator.setSplashScreenString(I18n.tr("Creating donation buttons so you can give us a hand..."));
-        createDonationButtonsComponent();
         //  make icons and panels for connection quality
         GUIMediator.setSplashScreenString(I18n.tr("Creating Connection Quality Indicator..."));
         createConnectionQualityPanel();
@@ -184,13 +174,7 @@ public final class StatusLine implements VPNStatusRefresher.VPNStatusListener {
         createFirewallLabel();
         //  make the 'Bandwidth Usage' label
         createBandwidthLabel();
-        // make the social buttons
-        GUIMediator.setSplashScreenString(I18n.tr("Learning to socialize on Facebook..."));
-        createFacebookButton();
-        GUIMediator.setSplashScreenString(I18n.tr("Learning to socialize on Twitter..."));
-        createTwitterButton();
-        createInstagramButton();
-        createDiscordButton();
+        // add the settings button
         createSettingsButton();
         // male Seeding status label
         GUIMediator.setSplashScreenString(I18n.tr("Painting seeding sign..."));
@@ -220,39 +204,9 @@ public final class StatusLine implements VPNStatusRefresher.VPNStatusListener {
         }
     }
 
-    private void createDonationButtonsComponent() {
-        donationButtons = new DonationButtons();
-    }
-
-    private void createTwitterButton() {
-        twitterButton = new IconButton("TWITTER");
-        initSocialButton(twitterButton, I18n.tr("Follow us @frostwire"), GUIConstants.TWITTER_FROSTWIRE_URL);
-    }
-
-    private void createInstagramButton() {
-        instagramButton = new IconButton("INSTAGRAM");
-        initSocialButton(instagramButton, I18n.tr("Follow FrostWire on Instagram"), GUIConstants.INSTAGRAM_FROSTWIRE_URL);
-        instagramButton.setPreferredSize(new Dimension(22, 16));
-    }
-
-    private void createFacebookButton() {
-        facebookButton = new IconButton("FACEBOOK");
-        initSocialButton(facebookButton, I18n.tr("Like FrostWire on Facebook and stay in touch with the community. Get Help and Help Others."), GUIConstants.FACEBOOK_FROSTWIRE_URL);
-    }
-
-    private void createDiscordButton() {
-        discordButton = new IconButton("DISCORD");
-        initSocialButton(discordButton, I18n.tr("Join the FrostWire community on Discord"), GUIConstants.FROSTWIRE_CHAT_URL);
-    }
-
     private void createSettingsButton() {
         settingsButton = new IconButton("SETTINGS_GEAR");
         settingsButton.setAction(new SettingsButtonAction());
-    }
-
-    private void initSocialButton(IconButton socialButton, String toolTipText, final String url) {
-        socialButton.setToolTipText(I18n.tr(toolTipText));
-        socialButton.addActionListener(arg0 -> GUIMediator.openURL(url));
     }
 
     private void createSeedingStatusLabel() {
@@ -285,11 +239,6 @@ public final class StatusLine implements VPNStatusRefresher.VPNStatusListener {
             //  subtract player as needed
             remainingWidth -= sepWidth;
             remainingWidth -= GUIConstants.SEPARATOR / 2;
-            // subtract donation buttons as needed2
-            if (donationButtons != null) {
-                remainingWidth -= donationButtons.getWidth();
-                remainingWidth -= GUIConstants.SEPARATOR;
-            }
             //  subtract center component
             int indicatorWidth = centerComponent.getWidth();
             remainingWidth -= indicatorWidth;
@@ -336,29 +285,11 @@ public final class StatusLine implements VPNStatusRefresher.VPNStatusListener {
             BAR.add(Box.createHorizontalStrut(GUIConstants.SEPARATOR / 2), gbc);
             BAR.add(createSeparator(), gbc);
             updateSeedingStatus();
-            BAR.add(Box.createHorizontalStrut(GUIConstants.SEPARATOR), gbc);
-            BAR.add(facebookButton, gbc);
-            BAR.add(Box.createHorizontalStrut(GUIConstants.SEPARATOR), gbc);
-            BAR.add(twitterButton, gbc);
-            BAR.add(Box.createHorizontalStrut(GUIConstants.SEPARATOR), gbc);
-            BAR.add(instagramButton, gbc);
-            BAR.add(Box.createHorizontalStrut(GUIConstants.SEPARATOR), gbc);
-            BAR.add(createSeparator(), gbc);
-            BAR.add(Box.createHorizontalStrut(GUIConstants.SEPARATOR), gbc);
-            BAR.add(discordButton, gbc);
-            BAR.add(Box.createHorizontalStrut(GUIConstants.SEPARATOR), gbc);
             //  make center panel stretchy
             gbc.weightx = 1;
             BAR.add(centerPanel, gbc);
             gbc.weightx = 0;
             BAR.add(Box.createHorizontalStrut(GUIConstants.SEPARATOR / 2), gbc);
-            // donation buttons
-            if (donationButtons != null && StatusBarSettings.DONATION_BUTTONS_DISPLAY_ENABLED.getValue()) {
-                BAR.add(Box.createHorizontalStrut(GUIConstants.SEPARATOR / 2), gbc);
-                BAR.add(donationButtons, gbc);
-                BAR.add(Box.createHorizontalStrut(10));
-                BAR.add(Box.createHorizontalStrut(GUIConstants.SEPARATOR), gbc);
-            }
 
             BAR.add(createSeparator(), gbc);
             BAR.add(settingsButton);
@@ -700,17 +631,6 @@ public final class StatusLine implements VPNStatusRefresher.VPNStatusListener {
 
         public void actionPerformed(ActionEvent e) {
             StatusBarSettings.BANDWIDTH_DISPLAY_ENABLED.invert();
-            refresh();
-        }
-    }
-
-    private class ShowDonationButtonsAction extends AbstractAction {
-        ShowDonationButtonsAction() {
-            putValue(Action.NAME, I18n.tr("Show Donation Buttons"));
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            StatusBarSettings.DONATION_BUTTONS_DISPLAY_ENABLED.invert();
             refresh();
         }
     }
